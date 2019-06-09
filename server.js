@@ -3,24 +3,16 @@
 
 // Application Dependencies
 const express = require('express');
-const methodOverride = require('method-override');
 
 // Application Setup
 const app = express();
 
 
 // Application Middleware
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(require('./middleware/urlencoded'));
+app.use(require('./middleware/static'));
 
-app.use(methodOverride((request, response) => {
-  if (request.body && typeof request.body === 'object' && '_method' in request.body) {
-    // look in urlencoded POST bodies and delete it
-    let method = request.body._method;
-    delete request.body._method;
-    return method;
-  }
-}))
+app.use(require('./middleware/methodOverride'));
 
 // Set the view engine for server-side templating
 app.set('view engine', 'ejs');
@@ -38,7 +30,3 @@ module.exports = {
     app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
   },
 };
-
-
-//PostGres Module
-// require('./routes/pg');

@@ -17,3 +17,6 @@ router.delete('/books/:id', db.deleteBook);
 router.get('*', (request, response) => response.status(404).send('No resource found'));
 
 module.exports = router;
+
+//PostGres Module
+require('./pg');
